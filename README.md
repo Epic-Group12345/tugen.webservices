@@ -20,3 +20,10 @@ web/generated/      вывод nim js (не в git)
 ```
 
 После правки `.nim` перезапусти `yarn nim`: Vite сам подхватит новый JS.
+
+## Оформление
+
+Элементы — из UI-kit TUGEN ([tugen.uikit](https://github.com/Epic-Group12345/tugen.uikit), пакет
+`@tugen/uikit`), чтобы веб выглядел как лаунчер. `web/main.js` подключает `@tugen/uikit/css`, а
+`web/app.nim` строит страницу процедурами модуля `tugen_uikit` (`button`, `section`, `row`, `toggle`…;
+путь к нему добавляет `yarn nim`). Тема — как в системе, `setTheme(ctDark)` задаёт её явно.
