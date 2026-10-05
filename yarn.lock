@@ -262,6 +262,10 @@
   resolved "https://registry.yarnpkg.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.64.0.tgz#971f6ba3b2fdf33bc6e6e6a10cbee5dd37c5e23d"
   integrity sha512-nl+CTWIgOGszQmUz/kanfgrfFZ4qiwxKIfT/ryl3N3Ewk5tqizmYtNXiqb7Bu/fDtNgu1kyxdFiAUJNur3iysg==
 
+"@tugen/uikit@github:Epic-Group12345/tugen.uikit#97144c0a0c4f178ed556dd13507f10f98e2cff99":
+  version "0.1.0"
+  resolved "https://codeload.github.com/Epic-Group12345/tugen.uikit/tar.gz/97144c0a0c4f178ed556dd13507f10f98e2cff99"
+
 "@types/estree@1.0.9":
   version "1.0.9"
   resolved "https://registry.yarnpkg.com/@types/estree/-/estree-1.0.9.tgz#cf3f0e876d7bee15a93ab925b82bf570a3904a24"

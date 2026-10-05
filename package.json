@@ -4,10 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "nim": "nim js --hints:off -d:release -o:web/generated/app.js web/app.nim",
+    "nim": "nim js --hints:off -d:release --path:node_modules/@tugen/uikit/nim -o:web/generated/app.js web/app.nim",
     "dev": "yarn nim && vite",
     "build": "yarn nim && vite build",
     "preview": "vite preview"
+  },
+  "dependencies": {
+    "@tugen/uikit": "github:Epic-Group12345/tugen.uikit#97144c0a0c4f178ed556dd13507f10f98e2cff99"
   },
   "devDependencies": {
     "vite": "^7"
