@@ -6,11 +6,31 @@ on:
   pull_request:
 
 jobs:
-  build:
+  backend:
+    runs-on: ubuntu-latest
+    # Сторонний setup-nim-action получает GITHUB_TOKEN: только на чтение
+    permissions:
+      contents: read
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: jiro4989/setup-nim-action@189b145833368cc92f1e7b3e166a25a3e057a693 # v2.3.1
+        with:
+          nim-version: '2.2.12'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: nim c -r --hints:off tests/test_static.nim
+      - run: nim c --hints:off -d:release -o:tugen_web src/tugen_web.nim
+
+  app:
     runs-on: ubuntu-latest
     permissions:
       contents: read
     timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: app
     steps:
       - uses: actions/checkout@v5
 
@@ -18,6 +38,7 @@ jobs:
         with:
           node-version: 22
           cache: yarn
+          cache-dependency-path: app/yarn.lock
 
       - run: yarn install --frozen-lockfile
       # Сборка первой: плагин Uniwind пишет uniwind-types.d.ts, без которого не сойдутся типы тем

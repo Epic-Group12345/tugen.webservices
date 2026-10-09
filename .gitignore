@@ -1,3 +1,9 @@
+# Nim
+/tugen_web
+nimcache/
+tests/test_static
+
+# app (Vite)
 node_modules/
-dist/
-uniwind-types.d.ts
+app/dist/
+app/uniwind-types.d.ts
