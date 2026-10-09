@@ -41,3 +41,7 @@ suite "раздача сайта":
     check mimeType("a/x.bin") == "application/octet-stream"
     check cacheControl(root / "assets/index-abc.js") == "public, max-age=31536000, immutable"
     check cacheControl(root / "index.html") == "no-cache"
+
+  test "страница приложения — index.html":
+    check resolveStatic(root, "/admin") == root / "index.html"
+    check resolveStatic(root, "/assets/missing.js") == ""

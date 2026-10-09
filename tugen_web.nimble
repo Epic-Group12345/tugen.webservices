@@ -10,3 +10,4 @@ requires "nim >= 2.2.0"
 
 task test, "Тесты бэкенда":
   exec "nim c -r --hints:off tests/test_static.nim"
+  exec "nim c -r --hints:off tests/test_roadmap.nim"

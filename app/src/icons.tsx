@@ -67,3 +67,32 @@ export const LogoMark: React.FC<{ size?: number }> = ({ size = 24 }) => (
     <path d="M9.5 7.5v9l7-4.5z" className="fill-mist-50" />
   </svg>
 );
+
+/** Discord — связь с разработчиком: залитый силуэт, чтобы значок читался и в 16 px */
+export const DiscordIcon: Glyph = ({ size = 16, className }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    className={className}
+    aria-hidden
+  >
+    <path
+      fill="currentColor"
+      fillRule="evenodd"
+      d="M19.3 5.3A17 17 0 0 0 15 4l-.5 1a15.5 15.5 0 0 0-5 0L9 4a17 17 0 0 0-4.3 1.3C2 9.4 1.3 13.4 1.6 17.3A17 17 0 0 0 6.9 20l1.1-1.8a11 11 0 0 1-1.7-.8l.4-.3a12.2 12.2 0 0 0 10.6 0l.4.3a11 11 0 0 1-1.7.8l1.1 1.8a17 17 0 0 0 5.3-2.7c.4-4.5-.7-8.5-3.1-12zM8.5 11.1a1.8 1.9 0 1 0 0 3.8 1.8 1.9 0 1 0 0-3.8zm7 0a1.8 1.9 0 1 0 0 3.8 1.8 1.9 0 1 0 0-3.8z"
+    />
+  </svg>
+);
+
+export const PlusIcon = glyph(<path d="M12 5v14M5 12h14" />);
+export const TrashIcon = glyph(
+  <>
+    <path d="M4 7h16M9 7V4.5h6V7" />
+    <path d="M6.5 7l1 12.5h9l1-12.5" />
+  </>,
+);
+export const ArrowLeftIcon = glyph(<path d="M15 5l-7 7 7 7" />);
+export const ArrowRightIcon = glyph(<path d="M9 5l7 7-7 7" />);
+export const ArrowUpIcon = glyph(<path d="M5 15l7-7 7 7" />);
+export const ArrowDownIcon = glyph(<path d="M5 9l7 7 7-7" />);

@@ -63,5 +63,6 @@ export default defineConfig(({ mode }) => ({
     __DEV__: JSON.stringify(mode !== 'production'),
     global: 'globalThis',
   },
-  server: { port: 5173 },
+  // API — у бэкенда на Nim (корень репозитория): yarn dev ходит к нему через прокси
+  server: { port: 5173, proxy: { '/api': 'http://localhost:8080' } },
 }));

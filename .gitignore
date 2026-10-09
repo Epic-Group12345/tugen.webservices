@@ -7,3 +7,6 @@ tests/test_static
 node_modules/
 app/dist/
 app/uniwind-types.d.ts
+
+# Данные бэкенда (роадмап)
+data/

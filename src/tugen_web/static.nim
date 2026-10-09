@@ -43,6 +43,10 @@ proc resolveStatic*(root, requestPath: string): string =
     return candidate
   if dirExists(candidate) and fileExists(candidate / "index.html"):
     return candidate / "index.html"
+  # Страницы приложения (/admin) — маршруты React, а не файлы: отдаём index.html.
+  # Путь с расширением — потерянный файл, ему честный 404
+  if parts.len > 0 and parts[^1].splitFile.ext.len == 0 and fileExists(root / "index.html"):
+    return root / "index.html"
   ""
 
 proc cacheControl*(path: string): string =
