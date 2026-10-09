@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@gravity-ui/icons": "^2.22.0",
     "@tugen/uikit": "github:Epic-Group12345/tugen.uikit#98feadc7c4976ead9bb0b4f71e69efacf617bb01",
     "react": "19.1.4",
     "react-dom": "19.1.4",

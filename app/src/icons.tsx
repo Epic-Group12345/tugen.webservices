@@ -1,74 +1,38 @@
 import React from 'react';
+import {
+  ArrowDownToLine,
+  ChevronDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronUp,
+  Plus,
+  TrashBin,
+} from '@gravity-ui/icons';
 
-// Значки страницы: SVG в DOM напрямую — react-native-svg вебу не нужен. Контур рисуется
+// Значки — набор Gravity UI, как в лаунчере (components/icons). Компоненты Gravity рисуют
 // currentColor, поэтому цвет задаёт класс text-*, который передаёт элемент kit (IconComponent)
 
 export type Glyph = React.FC<{ size?: number; className?: string }>;
 
-const glyph =
-  (paths: React.ReactNode): Glyph =>
+type GravityIcon = React.FC<React.SVGProps<SVGSVGElement>>;
+
+const gravity =
+  (Icon: GravityIcon): Glyph =>
   ({ size = 16, className }) =>
-    (
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth={2}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        className={className}
-        aria-hidden
-      >
-        {paths}
-      </svg>
-    );
+    <Icon width={size} height={size} className={className} aria-hidden />;
 
-export const PlayIcon = glyph(
-  <path d="M7 4.5v15l12-7.5z" fill="currentColor" />,
-);
+export const DownloadIcon = gravity(ArrowDownToLine);
+export const PlusIcon = gravity(Plus);
+export const TrashIcon = gravity(TrashBin);
+export const ArrowLeftIcon = gravity(ChevronLeft);
+export const ArrowRightIcon = gravity(ChevronRight);
+export const ArrowUpIcon = gravity(ChevronUp);
+export const ArrowDownIcon = gravity(ChevronDown);
 
-export const DownloadIcon = glyph(
-  <>
-    <path d="M12 4v11" />
-    <path d="m7 10 5 5 5-5" />
-    <path d="M5 20h14" />
-  </>,
-);
-
-export const ServersIcon = glyph(
-  <>
-    <rect x="3" y="4" width="18" height="7" rx="2" />
-    <rect x="3" y="13" width="18" height="7" rx="2" />
-    <path d="M7 7.5h.01M7 16.5h.01" />
-  </>,
-);
-
-export const ModsIcon = glyph(
-  <>
-    <path d="m12 3 8 4.5v9L12 21l-8-4.5v-9z" />
-    <path d="m4 7.5 8 4.5 8-4.5M12 12v9" />
-  </>,
-);
-
-export const FriendsIcon = glyph(
-  <>
-    <circle cx="9" cy="8" r="3.5" />
-    <path d="M2.5 20a6.5 6.5 0 0 1 13 0" />
-    <path d="M16 4.6a3.5 3.5 0 0 1 0 6.8M18 14a6.5 6.5 0 0 1 3.5 6" />
-  </>,
-);
-
-/** Знак TUGEN: зелёный квадрат «Играть» — цвет запуска игры из DESIGN.md */
-export const LogoMark: React.FC<{ size?: number }> = ({ size = 24 }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden>
-    <rect width="24" height="24" rx="7" className="fill-green-600" />
-    <path d="M9.5 7.5v9l7-4.5z" className="fill-mist-50" />
-  </svg>
-);
-
-/** Discord — связь с разработчиком: залитый силуэт, чтобы значок читался и в 16 px */
+/**
+ * Discord — в Gravity UI его нет: знак Clyde, как DISCORD_LOGO лаунчера
+ * (components/social/brands.ts), но одним цветом currentColor
+ */
 export const DiscordIcon: Glyph = ({ size = 16, className }) => (
   <svg
     width={size}
@@ -79,20 +43,7 @@ export const DiscordIcon: Glyph = ({ size = 16, className }) => (
   >
     <path
       fill="currentColor"
-      fillRule="evenodd"
-      d="M19.3 5.3A17 17 0 0 0 15 4l-.5 1a15.5 15.5 0 0 0-5 0L9 4a17 17 0 0 0-4.3 1.3C2 9.4 1.3 13.4 1.6 17.3A17 17 0 0 0 6.9 20l1.1-1.8a11 11 0 0 1-1.7-.8l.4-.3a12.2 12.2 0 0 0 10.6 0l.4.3a11 11 0 0 1-1.7.8l1.1 1.8a17 17 0 0 0 5.3-2.7c.4-4.5-.7-8.5-3.1-12zM8.5 11.1a1.8 1.9 0 1 0 0 3.8 1.8 1.9 0 1 0 0-3.8zm7 0a1.8 1.9 0 1 0 0 3.8 1.8 1.9 0 1 0 0-3.8z"
+      d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"
     />
   </svg>
 );
-
-export const PlusIcon = glyph(<path d="M12 5v14M5 12h14" />);
-export const TrashIcon = glyph(
-  <>
-    <path d="M4 7h16M9 7V4.5h6V7" />
-    <path d="M6.5 7l1 12.5h9l1-12.5" />
-  </>,
-);
-export const ArrowLeftIcon = glyph(<path d="M15 5l-7 7 7 7" />);
-export const ArrowRightIcon = glyph(<path d="M9 5l7 7-7 7" />);
-export const ArrowUpIcon = glyph(<path d="M5 15l7-7 7 7" />);
-export const ArrowDownIcon = glyph(<path d="M5 9l7 7 7-7" />);

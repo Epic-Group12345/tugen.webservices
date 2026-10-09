@@ -10,11 +10,11 @@ src/tugen_web/roadmap.nim роадмап: проверка доски, чтен�
 src/tugen_web/auth.nim  токен админки
 tests/                  тесты бэкенда
 app/                    фронтенд: Vite + React на UI-kit TUGEN
-  src/landing.tsx       лендинг: TUGEN по центру, «Скачать» и Discord разработчика, портативная версия, роадмап
+  src/landing.tsx       лендинг: TUGEN по центру, «Скачать» и значок Discord разработчика, портативная версия, роадмап
   src/roadmap.tsx       роадмап-канбан для чтения
   src/admin.tsx         скрытая админка /admin: правка канбана
   src/api.ts            запросы к API бэкенда
-  src/icons.tsx         значки страницы (SVG, цвет — класс text-*)
+  src/icons.tsx         значки: Gravity UI (@gravity-ui/icons), как в лаунчере; Discord — свой знак
   src/global.css        Tailwind + Uniwind и @source на исходники kit
   vite.config.ts        настройка как у витрины kit (tugen.uikit/example/vite.config.ts)
 ```
@@ -71,7 +71,7 @@ ADMIN_TOKEN=… ./tugen_web     # http://localhost:8080: сайт из app/dist 
 Uniwind пишутся целиком. Брейкпоинты — по `useWindowDimensions`, а не `sm:` / `md:`: на компонентах React
 Native они срабатывают не там. Тема — как в системе: `dark:` следует за `prefers-color-scheme`.
 
-«Связаться с разработчиком» открывает его профиль в Discord. Кнопки «Скачать» ведут на последний релиз в
+Кнопка со значком Discord (подсказка «Связаться с разработчиком») открывает профиль разработчика в Discord. Кнопки «Скачать» ведут на последний релиз в
 [epic.launcher-releases](https://github.com/Epic-Group12345/epic.launcher-releases): установщик
 `tugen-setup-win-x64.exe` и портативный `tugen-portable-win-x64.zip`.
 
