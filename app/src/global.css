@@ -1,5 +1,7 @@
-/* Классы Uniwind из исходников kit и страницы: без @source на kit его классы не соберутся */
-@source "../node_modules/@tugen/uikit/src/**/*.{ts,tsx}";
-@source "./**/*.{ts,tsx}";
 @import 'tailwindcss';
-@import 'uniwind';
+/* Веб-слой kit: классы его компонентов, тёмная тема как в системе, анимации появления */
+@import '@tugen/uikit/web.css';
+
+body {
+  @apply bg-mist-50 font-sans text-mist-950 antialiased dark:bg-mist-950 dark:text-mist-50;
+}

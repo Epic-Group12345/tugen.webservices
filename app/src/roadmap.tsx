@@ -1,5 +1,4 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, useWindowDimensions } from 'react-native';
 import {
   Button,
   Pill,
@@ -7,7 +6,7 @@ import {
   Surface,
   Text,
   type PillTone,
-} from '@tugen/uikit';
+} from '@tugen/uikit/web';
 import { COLUMNS, fetchRoadmap, type ColumnId, type Roadmap } from './api';
 
 // Роадмап на лендинге: канбан только для чтения. Править — в скрытой админке /admin
@@ -24,25 +23,28 @@ export const KanbanColumn: React.FC<{
   count: number;
   children: React.ReactNode;
 }> = ({ id, count, children }) => (
-  <View className="flex-1 gap-3">
-    <View className="flex-row items-center gap-2 px-1">
+  <div className="flex min-w-0 flex-1 flex-col gap-3">
+    <div className="flex flex-row items-center gap-2 px-1">
       <Text weight="semibold">{COLUMNS.find(c => c.id === id)!.title}</Text>
       <Pill tone={COLUMN_TONE[id]}>{String(count)}</Pill>
-    </View>
-    <Surface kind="card" radius="2xl" padding="2" className="flex-1 gap-2">
+    </div>
+    <Surface
+      kind="card"
+      radius="2xl"
+      padding="2"
+      className="flex flex-1 flex-col gap-2"
+    >
       {children}
     </Surface>
-  </View>
+  </div>
 );
 
 /** Раскладка колонок: в ряд на широком окне, друг под другом на телефоне */
-export const useKanbanLayout = () => {
-  const { width } = useWindowDimensions();
-  return width >= 768 ? 'flex-row items-stretch gap-4' : 'gap-6';
-};
+export const KANBAN_LAYOUT =
+  'flex flex-col gap-6 md:flex-row md:items-stretch md:gap-4';
 
 const Card: React.FC<{ title: string; text: string }> = ({ title, text }) => (
-  <Surface kind="overlay" nested className="gap-1 px-4 py-3">
+  <Surface kind="overlay" nested className="flex flex-col gap-1 px-4 py-3">
     <Text weight="semibold">{title}</Text>
     {text.length > 0 && <Text tone="secondary">{text}</Text>}
   </Surface>
@@ -51,7 +53,6 @@ const Card: React.FC<{ title: string; text: string }> = ({ title, text }) => (
 export const RoadmapSection: React.FC = () => {
   const [board, setBoard] = useState<Roadmap | null>(null);
   const [failed, setFailed] = useState(false);
-  const layout = useKanbanLayout();
 
   const load = useCallback(() => {
     setFailed(false);
@@ -62,32 +63,36 @@ export const RoadmapSection: React.FC = () => {
   useEffect(load, [load]);
 
   return (
-    <View className="gap-6">
-      <View className="gap-2">
-        <Text size="3xl" weight="bold">
+    <section className="flex flex-col gap-6">
+      <div className="flex flex-col gap-2">
+        <Text as="h2" size="3xl" weight="bold">
           Роадмап
         </Text>
         <Text size="lg" tone="secondary">
           Над чем работаем сейчас и что будет дальше.
         </Text>
-      </View>
+      </div>
       {failed ? (
-        <Surface kind="card" radius="2xl" className="items-start gap-3 p-5">
+        <Surface
+          kind="card"
+          radius="2xl"
+          className="flex flex-col items-start gap-3 p-5"
+        >
           <Text tone="secondary">
             Не удалось загрузить роадмап. Проверьте соединение и попробуйте ещё
             раз.
           </Text>
-          <Button variant="secondary" onPress={load}>
+          <Button variant="secondary" onClick={load}>
             Повторить
           </Button>
         </Surface>
       ) : (
-        <View className={layout}>
+        <div className={KANBAN_LAYOUT}>
           {COLUMNS.map(({ id }) => (
             <KanbanColumn key={id} id={id} count={board?.[id].length ?? 0}>
               {board ? (
                 board[id].length === 0 ? (
-                  <Text tone="muted" className="px-2 py-3">
+                  <Text as="p" tone="muted" className="px-2 py-3">
                     Пока пусто
                   </Text>
                 ) : (
@@ -103,8 +108,8 @@ export const RoadmapSection: React.FC = () => {
               )}
             </KanbanColumn>
           ))}
-        </View>
+        </div>
       )}
-    </View>
+    </section>
   );
 };
