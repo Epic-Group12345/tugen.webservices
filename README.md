@@ -15,8 +15,8 @@ app/                    фронтенд: Vite + React на UI-kit TUGEN
   src/admin.tsx         скрытая админка /admin: правка канбана
   src/api.ts            запросы к API бэкенда
   src/icons.tsx         значки: Gravity UI (@gravity-ui/icons), как в лаунчере; Discord — свой знак
-  src/global.css        Tailwind + Uniwind и @source на исходники kit
-  vite.config.ts        настройка как у витрины kit (tugen.uikit/example/vite.config.ts)
+  src/global.css        Tailwind и стили веб-слоя kit (@tugen/uikit/web.css)
+  vite.config.ts        Vite + React + Tailwind, прокси /api на бэкенд
 ```
 
 ## Работа
@@ -29,7 +29,7 @@ cd app
 yarn install
 yarn dev        # dev-сервер Vite, http://localhost:5173
 yarn build      # сборка в app/dist
-yarn typecheck  # после первой сборки: Uniwind пишет uniwind-types.d.ts
+yarn typecheck
 
 # бэкенд (из корня)
 nim c -r tests/test_static.nim && nim c -r tests/test_roadmap.nim   # тесты
@@ -66,10 +66,10 @@ ADMIN_TOKEN=… ./tugen_web     # http://localhost:8080: сайт из app/dist 
 
 ## Оформление
 
-Элементы — из UI-kit TUGEN ([tugen.uikit](https://github.com/Epic-Group12345/tugen.uikit), пакет `@tugen/uikit`)
-через react-native-web и Uniwind: те же компоненты, что в лаунчере, поэтому сайт выглядит как он. Классы
-Uniwind пишутся целиком. Брейкпоинты — по `useWindowDimensions`, а не `sm:` / `md:`: на компонентах React
-Native они срабатывают не там. Тема — как в системе: `dark:` следует за `prefers-color-scheme`.
+Элементы — из веб-слоя UI-kit TUGEN ([tugen.uikit](https://github.com/Epic-Group12345/tugen.uikit), `@tugen/uikit/web`):
+компоненты React DOM на Radix и Tailwind с теми же вариантами, размерами и цветами, что у лаунчера, поэтому
+сайт выглядит как он. react-native-web не используется. Классы Tailwind пишутся целиком, брейкпоинты — обычные
+`sm:` / `md:`. Тема — как в системе: `dark:` следует за `prefers-color-scheme`.
 
 Кнопка со значком Discord (подсказка «Связаться с разработчиком») открывает профиль разработчика в Discord. Кнопки «Скачать» ведут на последний релиз в
 [epic.launcher-releases](https://github.com/Epic-Group12345/epic.launcher-releases): установщик

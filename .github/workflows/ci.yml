@@ -42,7 +42,6 @@ jobs:
           cache-dependency-path: app/yarn.lock
 
       - run: yarn install --frozen-lockfile
-      # Сборка первой: плагин Uniwind пишет uniwind-types.d.ts, без которого не сойдутся типы тем
       - run: yarn build
       - run: yarn typecheck
       - run: npx prettier --check src vite.config.ts

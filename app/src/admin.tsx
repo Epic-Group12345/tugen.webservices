@@ -1,16 +1,14 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { ScrollView, View } from 'react-native';
 import {
   Button,
   Field,
   IconButton,
-  PopupHost,
   Surface,
   Text,
   TextField,
   Toaster,
   toast,
-} from '@tugen/uikit';
+} from '@tugen/uikit/web';
 import {
   ApiError,
   COLUMNS,
@@ -29,7 +27,7 @@ import {
   PlusIcon,
   TrashIcon,
 } from './icons';
-import { KanbanColumn, useKanbanLayout } from './roadmap';
+import { KANBAN_LAYOUT, KanbanColumn } from './roadmap';
 
 // Скрытая админка роадмапа: страница /admin, ссылок на неё нет. Вход — токен ADMIN_TOKEN бэкенда;
 // он хранится только до закрытия вкладки (sessionStorage), а проверяет его сервер
@@ -82,14 +80,18 @@ const Login: React.FC<{ onLogin: (token: string) => void }> = ({ onLogin }) => {
   };
 
   return (
-    <View className="flex-1 items-center justify-center p-5">
-      <Surface kind="card" radius="2xl" className="w-full max-w-sm gap-4 p-6">
-        <View className="gap-1">
-          <Text size="xl" weight="bold">
+    <main className="flex min-h-svh flex-col items-center justify-center p-5">
+      <Surface
+        kind="card"
+        radius="2xl"
+        className="flex w-full max-w-sm flex-col gap-4 p-6"
+      >
+        <div className="flex flex-col gap-1">
+          <Text as="h1" size="xl" weight="bold">
             Админка роадмапа
           </Text>
           <Text tone="secondary">Введите токен администратора.</Text>
-        </View>
+        </div>
         <Field label="Токен" error={error || undefined}>
           <TextField
             value={token}
@@ -99,11 +101,11 @@ const Login: React.FC<{ onLogin: (token: string) => void }> = ({ onLogin }) => {
             onSubmit={submit}
           />
         </Field>
-        <Button onPress={submit} disabled={!token || busy}>
+        <Button onClick={submit} disabled={!token || busy}>
           Войти
         </Button>
       </Surface>
-    </View>
+    </main>
   );
 };
 
@@ -120,14 +122,14 @@ const EditableCard: React.FC<{
 }> = ({ item, column, first, last, onChange, onMove, onShift, onDelete }) => {
   const col = ORDER.indexOf(column);
   return (
-    <Surface kind="overlay" nested padding="2" className="gap-2">
+    <Surface kind="overlay" nested padding="2" className="flex flex-col gap-2">
       <TextField
         value={item.title}
         onChangeText={title => onChange({ ...item, title })}
         placeholder="Название"
         maxLength={120}
         invalid={item.title.trim().length === 0}
-        accessibilityLabel="Название карточки"
+        aria-label="Название карточки"
       />
       <TextField
         value={item.text}
@@ -136,41 +138,41 @@ const EditableCard: React.FC<{
         maxLength={500}
         multiline
         numberOfLines={2}
-        accessibilityLabel="Описание карточки"
+        aria-label="Описание карточки"
       />
-      <View className="flex-row items-center">
+      <div className="flex flex-row items-center">
         <IconButton
           icon={ArrowLeftIcon}
-          onPress={() => onMove(-1)}
+          onClick={() => onMove(-1)}
           disabled={col === 0}
-          accessibilityLabel="В предыдущую колонку"
+          aria-label="В предыдущую колонку"
         />
         <IconButton
           icon={ArrowUpIcon}
-          onPress={() => onShift(-1)}
+          onClick={() => onShift(-1)}
           disabled={first}
-          accessibilityLabel="Выше"
+          aria-label="Выше"
         />
         <IconButton
           icon={ArrowDownIcon}
-          onPress={() => onShift(1)}
+          onClick={() => onShift(1)}
           disabled={last}
-          accessibilityLabel="Ниже"
+          aria-label="Ниже"
         />
         <IconButton
           icon={ArrowRightIcon}
-          onPress={() => onMove(1)}
+          onClick={() => onMove(1)}
           disabled={col === ORDER.length - 1}
-          accessibilityLabel="В следующую колонку"
+          aria-label="В следующую колонку"
         />
-        <View className="flex-1" />
+        <div className="flex-1" />
         <IconButton
           icon={TrashIcon}
           tone="danger"
-          onPress={onDelete}
-          accessibilityLabel="Удалить карточку"
+          onClick={onDelete}
+          aria-label="Удалить карточку"
         />
-      </View>
+      </div>
     </Surface>
   );
 };
@@ -182,7 +184,6 @@ const Editor: React.FC<{ token: string; onLogout: () => void }> = ({
   const [board, setBoard] = useState<Roadmap | null>(null);
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
-  const layout = useKanbanLayout();
 
   useEffect(() => {
     fetchRoadmap()
@@ -263,41 +264,41 @@ const Editor: React.FC<{ token: string; onLogout: () => void }> = ({
   };
 
   return (
-    <ScrollView contentContainerClassName="items-center p-5">
-      <View className="w-full max-w-6xl gap-6">
-        <View className="flex-row flex-wrap items-center justify-between gap-3">
-          <View className="gap-0.5">
-            <Text size="2xl" weight="bold">
+    <main className="flex flex-col items-center p-5">
+      <div className="flex w-full max-w-6xl flex-col gap-6">
+        <div className="flex flex-row flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-col gap-0.5">
+            <Text as="h1" size="2xl" weight="bold">
               Роадмап
             </Text>
             <Text tone="muted">
               {dirty ? 'Есть несохранённые изменения' : 'Всё сохранено'}
             </Text>
-          </View>
-          <View className="flex-row items-center gap-2">
-            <Button variant="ghost" onPress={onLogout}>
+          </div>
+          <div className="flex flex-row items-center gap-2">
+            <Button variant="ghost" onClick={onLogout}>
               Выйти
             </Button>
             <Button
               variant="secondary"
-              onPress={() => {
+              onClick={() => {
                 window.location.href = '/';
               }}
             >
               На сайт
             </Button>
-            <Button onPress={save} disabled={!dirty || saving || empty}>
+            <Button onClick={save} disabled={!dirty || saving || empty}>
               Сохранить
             </Button>
-          </View>
-        </View>
+          </div>
+        </div>
         {empty && (
           <Text tone="warning">
             У каждой карточки должно быть название — иначе сохранить нельзя.
           </Text>
         )}
         {board && (
-          <View className={layout}>
+          <div className={KANBAN_LAYOUT}>
             {COLUMNS.map(({ id: col }) => (
               <KanbanColumn key={col} id={col} count={board[col].length}>
                 {board[col].map((item, index) => (
@@ -316,16 +317,16 @@ const Editor: React.FC<{ token: string; onLogout: () => void }> = ({
                 <Button
                   variant="ghost"
                   icon={PlusIcon}
-                  onPress={() => add(col)}
+                  onClick={() => add(col)}
                 >
                   Добавить карточку
                 </Button>
               </KanbanColumn>
             ))}
-          </View>
+          </div>
         )}
-      </View>
-    </ScrollView>
+      </div>
+    </main>
   );
 };
 
@@ -338,14 +339,13 @@ export const Admin: React.FC = () => {
   };
 
   return (
-    <View className="flex-1 bg-mist-50 dark:bg-mist-950">
+    <>
       {token ? (
         <Editor token={token} onLogout={() => login('')} />
       ) : (
         <Login onLogin={login} />
       )}
       <Toaster />
-      <PopupHost />
-    </View>
+    </>
   );
 };
