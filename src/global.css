@@ -1,0 +1,5 @@
+/* Классы Uniwind из исходников kit и страницы: без @source на kit его классы не соберутся */
+@source "../node_modules/@tugen/uikit/src/**/*.{ts,tsx}";
+@source "./**/*.{ts,tsx}";
+@import 'tailwindcss';
+@import 'uniwind';

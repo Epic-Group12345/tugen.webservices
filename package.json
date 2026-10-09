@@ -4,15 +4,28 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "nim": "nim js --hints:off -d:release --path:node_modules/@tugen/uikit/nim -o:web/generated/app.js web/app.nim",
-    "dev": "yarn nim && vite",
-    "build": "yarn nim && vite build",
-    "preview": "vite preview"
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@tugen/uikit": "github:Epic-Group12345/tugen.uikit#97144c0a0c4f178ed556dd13507f10f98e2cff99"
+    "@tugen/uikit": "github:Epic-Group12345/tugen.uikit#98feadc7c4976ead9bb0b4f71e69efacf617bb01",
+    "react": "19.1.4",
+    "react-dom": "19.1.4",
+    "react-native": "0.81.6",
+    "react-native-web": "^0.21.0",
+    "tailwindcss": "^4.3.3",
+    "uniwind": "^1.12.0"
   },
   "devDependencies": {
-    "vite": "^7"
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^22",
+    "@types/react": "^19.1.4",
+    "@types/react-dom": "^19.1.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "prettier": "^2",
+    "typescript": "^5.8.3",
+    "vite": "^7.3.7"
   }
 }

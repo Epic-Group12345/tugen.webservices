@@ -1,4 +1,3 @@
 node_modules/
 dist/
-web/generated/
-nimcache/
+uniwind-types.d.ts
