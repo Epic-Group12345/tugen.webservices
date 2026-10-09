@@ -1,4 +1,12 @@
-node_modules/
-dist/
-web/generated/
+# Nim
+/tugen_web
 nimcache/
+tests/test_static
+
+# app (Vite)
+node_modules/
+app/dist/
+app/uniwind-types.d.ts
+
+# Данные бэкенда (роадмап)
+data/
