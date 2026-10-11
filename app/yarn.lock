@@ -1382,9 +1382,9 @@
     "@tailwindcss/oxide" "4.3.3"
     tailwindcss "4.3.3"
 
-"@tugen/uikit@github:Epic-Group12345/tugen.uikit#140093eb100b399ab10a1434c0c84670bd320f15":
+"@tugen/uikit@github:Epic-Group12345/tugen.uikit#e6588fa9bf47c2739c231b57ab1b581df6614f62":
   version "0.1.0"
-  resolved "https://codeload.github.com/Epic-Group12345/tugen.uikit/tar.gz/140093eb100b399ab10a1434c0c84670bd320f15"
+  resolved "https://codeload.github.com/Epic-Group12345/tugen.uikit/tar.gz/e6588fa9bf47c2739c231b57ab1b581df6614f62"
   dependencies:
     "@radix-ui/react-accordion" "1.2.21"
     "@radix-ui/react-alert-dialog" "^1.1.24"
