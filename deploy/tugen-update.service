@@ -1,5 +1,5 @@
 [Unit]
-Description=Обновление веба TUGEN из GitHub
+Description=Обновление веба TUGEN из GHCR
 After=docker.service
 Requires=docker.service
 

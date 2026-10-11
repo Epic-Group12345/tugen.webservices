@@ -3,9 +3,8 @@
 # Если на сервере уже есть nginx, Caddy не запускается, а nginx проксирует на 127.0.0.1:WEB_PORT (nginx-tugen.conf).
 services:
   web:
-    # Образ собирается на сервере прямо из ветки main в GitHub; пересборку запускает update.sh
-    build: https://github.com/Epic-Group12345/tugen.webservices.git#main
-    image: tugen-web:latest
+    # Образ собирает GitHub Actions (.github/workflows/deploy.yml); новый подтягивает update.sh
+    image: ghcr.io/epic-group12345/tugen.webservices:latest
     restart: unless-stopped
     environment:
       ADMIN_TOKEN: ${ADMIN_TOKEN:-}

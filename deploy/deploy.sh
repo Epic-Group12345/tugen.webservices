@@ -8,4 +8,4 @@ dir="$(cd "$(dirname "$0")" && pwd)"
 ssh "$@" "$host" 'mkdir -p /tmp/tugen-deploy'
 scp -q "$@" "$dir"/compose.yml "$dir"/Caddyfile "$dir"/update.sh "$dir"/install.sh \
   "$dir"/tugen-update.service "$dir"/tugen-update.timer "$host":/tmp/tugen-deploy/
-ssh "$@" "$host" "SITE_ADDRESS='${SITE_ADDRESS:-}' sh /tmp/tugen-deploy/install.sh && rm -rf /tmp/tugen-deploy"
+ssh "$@" "$host" "SITE_ADDRESS='${SITE_ADDRESS:-}' GHCR_USER='${GHCR_USER:-}' GHCR_TOKEN='${GHCR_TOKEN:-}' sh /tmp/tugen-deploy/install.sh && rm -rf /tmp/tugen-deploy"

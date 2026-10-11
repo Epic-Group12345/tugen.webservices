@@ -1,5 +1,5 @@
 [Unit]
-Description=Проверка новых коммитов веба TUGEN каждые 30 секунд
+Description=Проверка нового образа веба TUGEN каждые 30 секунд
 
 [Timer]
 OnBootSec=30s

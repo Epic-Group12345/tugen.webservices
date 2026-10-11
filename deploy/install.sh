@@ -10,11 +10,16 @@ if ! command -v docker >/dev/null 2>&1; then
   curl -fsSL https://get.docker.com | sh
 fi
 systemctl enable --now docker
-command -v git >/dev/null 2>&1 || { apt-get update -q && apt-get install -yq git; }
+# Пакет в GHCR приватный — нужен токен с read:packages: GHCR_USER=… GHCR_TOKEN=… ./install.sh
+if [ -n "${GHCR_TOKEN:-}" ]; then
+  echo "$GHCR_TOKEN" | docker login ghcr.io -u "${GHCR_USER:?нужен GHCR_USER}" --password-stdin
+fi
 
 mkdir -p /opt/tugen
 install -m 644 compose.yml Caddyfile /opt/tugen/
 install -m 755 update.sh /opt/tugen/
+# Следы прежней схемы, где образ собирался на сервере
+rm -f /opt/tugen/.rev /opt/tugen/.failed
 install -m 644 tugen-update.service tugen-update.timer /etc/systemd/system/
 
 # Токен админки создаётся один раз и остаётся при переустановке
