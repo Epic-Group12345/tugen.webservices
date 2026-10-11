@@ -45,3 +45,13 @@ jobs:
       - run: yarn build
       - run: yarn typecheck
       - run: npx prettier --check src vite.config.ts
+
+  # Образ, который собирает сервер (deploy/update.sh): проверяем, что Dockerfile собирается
+  docker:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - run: docker build -t tugen-web .

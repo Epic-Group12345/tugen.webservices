@@ -1,0 +1,33 @@
+# Веб TUGEN на сервере: сайт с бэкендом и Caddy перед ним на 80/443.
+# Лежит в /opt/tugen вместе с .env (ADMIN_TOKEN, SITE_ADDRESS); ставит deploy/install.sh.
+services:
+  web:
+    # Образ собирается на сервере прямо из ветки main в GitHub; пересборку запускает update.sh
+    build: https://github.com/Epic-Group12345/tugen.webservices.git#main
+    image: tugen-web:latest
+    restart: unless-stopped
+    environment:
+      ADMIN_TOKEN: ${ADMIN_TOKEN:-}
+    volumes:
+      - web-data:/data
+
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    depends_on: [web]
+    ports:
+      - '80:80'
+      - '443:443'
+      - '443:443/udp'
+    environment:
+      # Домен — Caddy сам получит сертификат и включит HTTPS; без домена сайт работает по http на IP
+      SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+      - caddy-config:/config
+
+volumes:
+  web-data:
+  caddy-data:
+  caddy-config:

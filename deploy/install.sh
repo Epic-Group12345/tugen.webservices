@@ -1,0 +1,34 @@
+#!/bin/sh
+# Установка веба TUGEN на сервер (Debian/Ubuntu, root). Выполняется на сервере из папки с файлами deploy/;
+# обычно её запускает deploy.sh с вашего компьютера. Повторный запуск безопасен: .env и данные сохраняются.
+#   SITE_ADDRESS=tugen.example.com ./install.sh   — с доменом (HTTPS); без него сайт работает по http на IP
+set -eu
+cd "$(dirname "$0")"
+
+if ! command -v docker >/dev/null 2>&1; then
+  echo '> Ставлю Docker'
+  curl -fsSL https://get.docker.com | sh
+fi
+systemctl enable --now docker
+command -v git >/dev/null 2>&1 || { apt-get update -q && apt-get install -yq git; }
+
+mkdir -p /opt/tugen
+install -m 644 compose.yml Caddyfile /opt/tugen/
+install -m 755 update.sh /opt/tugen/
+install -m 644 tugen-update.service tugen-update.timer /etc/systemd/system/
+
+# Токен админки создаётся один раз и остаётся при переустановке
+if [ ! -f /opt/tugen/.env ]; then
+  umask 077
+  printf 'ADMIN_TOKEN=%s\nSITE_ADDRESS=%s\n' "$(od -An -tx1 -N32 /dev/urandom | tr -d " \n")" "${SITE_ADDRESS:-:80}" > /opt/tugen/.env
+  echo '> Создан /opt/tugen/.env с новым ADMIN_TOKEN'
+elif [ -n "${SITE_ADDRESS:-}" ]; then
+  sed -i "s|^SITE_ADDRESS=.*|SITE_ADDRESS=$SITE_ADDRESS|" /opt/tugen/.env
+fi
+
+/opt/tugen/update.sh
+systemctl daemon-reload
+systemctl enable --now tugen-update.timer
+
+echo '> Готово. Токен админки (/admin):'
+grep '^ADMIN_TOKEN=' /opt/tugen/.env | cut -d= -f2

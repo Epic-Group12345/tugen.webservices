@@ -1,0 +1,10 @@
+[Unit]
+Description=Проверка новых коммитов веба TUGEN каждые 30 секунд
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=30s
+AccuracySec=5s
+
+[Install]
+WantedBy=timers.target
