@@ -1,4 +1,18 @@
+{
+	servers {
+		# За защитой (RT Solar и т. п.) адрес посетителя приходит в X-Forwarded-For. Верим заголовку только от
+		# сетей защиты (TRUSTED_PROXIES в .env, у Солара 93.185.164.0/25), иначе его подделает кто угодно
+		trusted_proxies static {$TRUSTED_PROXIES:private_ranges}
+		client_ip_headers X-Forwarded-For
+	}
+}
+
 {$SITE_ADDRESS::80} {
+	# Свой сертификат вместо автоматического: SITE_TLS="tls /etc/letsencrypt/live/<домен>/fullchain.pem …/privkey.pem".
+	# Нужен, когда домен смотрит на защиту и Let's Encrypt не достучится до сервера
+	{$SITE_TLS:}
+	# Журнал запросов в docker compose logs; client_ip в нём — адрес посетителя, а не защиты
+	log
 	encode zstd gzip
 	reverse_proxy web:8080
 }
