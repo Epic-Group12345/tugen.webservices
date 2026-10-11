@@ -10,7 +10,7 @@ src/tugen_web/roadmap.nim роадмап: проверка доски, чтен�
 src/tugen_web/auth.nim  токен админки
 tests/                  тесты бэкенда
 app/                    фронтенд: Vite + React на UI-kit TUGEN
-  src/landing.tsx       лендинг: TUGEN по центру, «Скачать» и значок Discord разработчика, портативная версия, роадмап
+  src/landing.tsx       лендинг: слева заголовок «А что если лаунчер — …» со сменяющимся окончанием, «Скачать», Discord, роадмап
   src/roadmap.tsx       роадмап-канбан для чтения
   src/admin.tsx         скрытая админка /admin: правка канбана
   src/api.ts            запросы к API бэкенда
