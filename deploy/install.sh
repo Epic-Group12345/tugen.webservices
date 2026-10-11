@@ -37,10 +37,11 @@ elif [ -n "${SITE_ADDRESS:-}" ]; then
   sed -i "s|^SITE_ADDRESS=.*|SITE_ADDRESS=$SITE_ADDRESS|" /opt/tugen/.env
 fi
 
-# Таймер включается до первого запуска: если тот упадёт (например, занят порт), обновления всё равно пойдут
+# Таймер включается до первого запуска: если тот упадёт (например, занят порт), обновления всё равно пойдут.
+# Первый запуск — через тот же юнит: таймер может стартовать его сразу, а systemd не даст двум запускам пересечься
 systemctl daemon-reload
 systemctl enable --now tugen-update.timer
-/opt/tugen/update.sh
+systemctl start tugen-update.service
 
 echo '> Готово. Токен админки (/admin):'
 grep '^ADMIN_TOKEN=' /opt/tugen/.env | cut -d= -f2
