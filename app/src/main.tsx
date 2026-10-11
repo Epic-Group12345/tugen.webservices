@@ -1,10 +1,12 @@
 import React, { Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
-// Шрифт сайта — Ubuntu, со своего сервера: Vite кладёт файлы в assets/, браузер берёт только нужные
-// алфавиты (unicode-range). Начертания — те, что есть у Ubuntu и нужны классам: обычный, medium, bold
+// Шрифты сайта — Ubuntu для текста и Ubuntu Mono для кода, со своего сервера: Vite кладёт файлы в assets/,
+// браузер берёт только нужные алфавиты (unicode-range). Начертания — те, что есть у шрифтов и нужны классам
 import '@fontsource/ubuntu/400.css';
 import '@fontsource/ubuntu/500.css';
 import '@fontsource/ubuntu/700.css';
+import '@fontsource/ubuntu-mono/400.css';
+import '@fontsource/ubuntu-mono/700.css';
 import './global.css';
 import { Admin } from './admin';
 import { Business, Developers, Publishers } from './audiences';

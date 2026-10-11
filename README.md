@@ -111,8 +111,9 @@ Let's Encrypt не достучится до сервера и сертифик�
 Элементы — из веб-слоя UI-kit TUGEN ([tugen.uikit](https://github.com/Epic-Group12345/tugen.uikit), `@tugen/uikit/web`):
 компоненты React DOM на Radix и Tailwind с теми же вариантами, размерами и цветами, что у лаунчера, поэтому
 сайт выглядит как он. react-native-web не используется. Классы Tailwind пишутся целиком, брейкпоинты — обычные
-`sm:` / `md:`. Тема — как в системе: `dark:` следует за `prefers-color-scheme`. Шрифт — Ubuntu со своего сервера
-(`@fontsource/ubuntu`, подключён в `main.tsx`, `--font-sans` в `global.css`) вместо Segoe UI kit.
+`sm:` / `md:`. Тема — как в системе: `dark:` следует за `prefers-color-scheme`. Шрифты — Ubuntu для текста и Ubuntu Mono для кода,
+со своего сервера (`@fontsource/ubuntu`, `@fontsource/ubuntu-mono` в `main.tsx`, `--font-sans` и `--font-mono` в
+`global.css`) вместо Segoe UI и Consolas kit.
 
 Кнопка со значком Discord (подсказка «Связаться с разработчиком») открывает профиль разработчика в Discord. Кнопки «Скачать» ведут на последний релиз в
 [epic.launcher-releases](https://github.com/Epic-Group12345/epic.launcher-releases): установщик
