@@ -13,7 +13,7 @@
     "@fontsource-variable/ubuntu-sans": "^5.3.0",
     "@fontsource/ubuntu-mono": "^5.3.0",
     "@gravity-ui/icons": "^2.22.0",
-    "@tugen/uikit": "github:Epic-Group12345/tugen.uikit#140093eb100b399ab10a1434c0c84670bd320f15",
+    "@tugen/uikit": "github:Epic-Group12345/tugen.uikit#e6588fa9bf47c2739c231b57ab1b581df6614f62",
     "lucide-react": "^1.54.0",
     "prism-react-renderer": "^2.4.1",
     "react": "19.1.4",
