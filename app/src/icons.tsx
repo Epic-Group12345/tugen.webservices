@@ -2,11 +2,16 @@ import React from 'react';
 import {
   ArrowDownToLine,
   ArrowRight,
+  ArrowRightFromSquare,
   Bars,
   BookOpen,
   Briefcase,
   CodeTrunk,
+  Ellipsis,
+  Globe,
   LayoutCells,
+  LayoutColumns3,
+  LayoutSideContentLeft,
   Megaphone,
   ChevronDown,
   ChevronLeft,
@@ -14,6 +19,7 @@ import {
   ChevronUp,
   Plus,
   TrashBin,
+  TriangleExclamation,
 } from '@gravity-ui/icons';
 
 // Значки — набор Gravity UI, как в лаунчере (components/icons). Компоненты Gravity рисуют
@@ -42,6 +48,12 @@ export const ArrowLeftIcon = gravity(ChevronLeft);
 export const ArrowRightIcon = gravity(ChevronRight);
 export const ArrowUpIcon = gravity(ChevronUp);
 export const ArrowDownIcon = gravity(ChevronDown);
+export const MoreIcon = gravity(Ellipsis);
+export const SidebarIcon = gravity(LayoutSideContentLeft);
+export const RoadmapIcon = gravity(LayoutColumns3);
+export const CrashIcon = gravity(TriangleExclamation);
+export const SiteIcon = gravity(Globe);
+export const LogoutIcon = gravity(ArrowRightFromSquare);
 
 /**
  * Discord — в Gravity UI его нет: знак Clyde, как DISCORD_LOGO лаунчера

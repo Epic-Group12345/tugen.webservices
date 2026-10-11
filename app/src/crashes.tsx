@@ -15,6 +15,7 @@ import {
   fetchCrashes,
   type CrashReport,
 } from './api';
+import { AdminShell, type AdminSection } from './admin-shell';
 
 // Отчёты о сбоях лаунчера в админке: за день или неделю одинаковые ошибки сведены в одну строку со
 // счётчиком; фильтры по виду, версии и тексту. Минидамп скачивается файлом — его открывают в Visual Studio
@@ -198,8 +199,8 @@ const KIND_OPTIONS = [
 export const Crashes: React.FC<{
   token: string;
   onLogout: () => void;
-  onRoadmap: () => void;
-}> = ({ token, onLogout, onRoadmap }) => {
+  onSection: (section: AdminSection) => void;
+}> = ({ token, onLogout, onSection }) => {
   const [days, setDays] = useState<string[] | null>(null);
   const [period, setPeriod] = useState(WEEK);
   const [loaded, setLoaded] = useState<Loaded[] | null>(null);
@@ -281,69 +282,61 @@ export const Crashes: React.FC<{
   ];
 
   return (
-    <main className="flex flex-col items-center p-5">
-      <div className="flex w-full max-w-4xl flex-col gap-6">
-        <div className="flex flex-row flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-col gap-0.5">
-            <Text as="h1" size="2xl" weight="bold">
-              Сбои лаунчера
-            </Text>
-            <Text tone="muted">
-              {loaded
-                ? `${filtered.length} отчётов, ${groups.length} разных ошибок`
-                : 'Загружаем…'}
-            </Text>
-          </div>
-          <div className="flex flex-row items-center gap-2">
-            <Button variant="ghost" onClick={onLogout}>
-              Выйти
-            </Button>
-            <Button variant="secondary" onClick={onRoadmap}>
-              Роадмап
-            </Button>
-          </div>
-        </div>
-        {days && days.length > 0 && (
-          <div className="flex flex-row flex-wrap items-center gap-2">
+    <AdminShell section="crashes" onSection={onSection} onLogout={onLogout}>
+      <div className="flex flex-col gap-0.5">
+        <Text as="h1" size="2xl" weight="bold">
+          Сбои лаунчера
+        </Text>
+        <Text tone="muted">
+          {loaded
+            ? `${filtered.length} отчётов, ${groups.length} разных ошибок`
+            : 'Загружаем…'}
+        </Text>
+      </div>
+      {days && days.length > 0 && (
+        <div className="flex flex-row flex-wrap items-center gap-2">
+          <div className="w-full md:w-52">
             <Select
               options={periodOptions}
               value={period}
               onChange={setPeriod}
               aria-label="Период"
             />
+          </div>
+          <div className="w-full md:w-52">
             <Select
               options={KIND_OPTIONS}
               value={kind}
               onChange={setKind}
               aria-label="Вид сбоя"
             />
+          </div>
+          <div className="w-full md:w-52">
             <Select
               options={versionOptions}
               value={version}
               onChange={setVersion}
               aria-label="Версия"
             />
-            <div className="min-w-48 flex-1">
-              <TextField
-                value={query}
-                onChangeText={setQuery}
-                type="search"
-                placeholder="Текст ошибки или место"
-                aria-label="Поиск"
-              />
-            </div>
           </div>
-        )}
-        {days && days.length === 0 && (
-          <Text tone="muted">Отчётов пока нет.</Text>
-        )}
-        {loaded && loaded.length > 0 && groups.length === 0 && (
-          <Text tone="muted">Под фильтр ничего не попало.</Text>
-        )}
-        {groups.map(g => (
-          <GroupCard key={g.key} token={token} group={g} />
-        ))}
-      </div>
-    </main>
+          <div className="min-w-48 flex-1">
+            <TextField
+              value={query}
+              onChangeText={setQuery}
+              type="search"
+              placeholder="Текст ошибки или место"
+              aria-label="Поиск"
+            />
+          </div>
+        </div>
+      )}
+      {days && days.length === 0 && <Text tone="muted">Отчётов пока нет.</Text>}
+      {loaded && loaded.length > 0 && groups.length === 0 && (
+        <Text tone="muted">Под фильтр ничего не попало.</Text>
+      )}
+      {groups.map(g => (
+        <GroupCard key={g.key} token={token} group={g} />
+      ))}
+    </AdminShell>
   );
 };

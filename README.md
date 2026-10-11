@@ -17,7 +17,9 @@ app/                    фронтенд: Vite + React на UI-kit TUGEN
   src/docs.tsx          /docs: сайт документации kit (docs/src из пакета) под шапкой сайта
   src/landing.tsx       лендинг: слева заголовок «А что если лаунчер — …» со сменяющимся окончанием, «Скачать», Discord, роадмап
   src/roadmap.tsx       роадмап-канбан для чтения
-  src/admin.tsx         скрытая админка /admin: правка канбана
+  src/admin.tsx         скрытая админка /admin: вход, правка канбана
+  src/admin-shell.tsx   каркас админки как окно лаунчера: боковая панель с разделами, шапка «назад / вперёд»
+  src/crashes.tsx       раздел админки «Сбои»: отчёты о сбоях лаунчера
   src/api.ts            запросы к API бэкенда
   src/icons.tsx         значки: Gravity UI (@gravity-ui/icons), как в лаунчере; Discord — свой знак
   src/global.css        Tailwind и стили веб-слоя kit (@tugen/uikit/web.css)
