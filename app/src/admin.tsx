@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import {
   Button,
   Field,
@@ -195,9 +195,23 @@ export interface SectionProps {
   onSection: (section: AdminSection) => void;
 }
 
-const Editor: React.FC<SectionProps> = ({ token, onLogout, onSection }) => {
+const Editor: React.FC<
+  SectionProps & { onDirty: (dirty: boolean) => void }
+> = ({ token, onLogout, onSection, onDirty }) => {
   const [board, setBoard] = useState<Roadmap | null>(null);
   const [dirty, setDirty] = useState(false);
+
+  // Несохранённое не пропадает молча: о смене раздела спрашивает Admin, о закрытии вкладки — браузер
+  useEffect(() => {
+    onDirty(dirty);
+    if (!dirty) return;
+    const warn = (e: BeforeUnloadEvent) => e.preventDefault();
+    window.addEventListener('beforeunload', warn);
+    return () => {
+      window.removeEventListener('beforeunload', warn);
+      onDirty(false);
+    };
+  }, [dirty, onDirty]);
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
@@ -333,16 +347,35 @@ const Editor: React.FC<SectionProps> = ({ token, onLogout, onSection }) => {
 export const Admin: React.FC = () => {
   const [token, setToken] = useState(readToken);
   const [section, setSectionState] = useState<AdminSection>(sectionFromHash);
+  const current = useRef(section);
+  current.current = section;
+  // В роадмапе есть несохранённые правки: уход из раздела — только с согласия
+  const unsaved = useRef(false);
+  const onDirty = useCallback((dirty: boolean) => {
+    unsaved.current = dirty;
+  }, []);
+  const mayLeave = () =>
+    !unsaved.current ||
+    window.confirm('Несохранённые изменения роадмапа пропадут. Уйти?');
 
   // Раздел — в истории браузера: «назад» и «вперёд» в панели над страницей ходят между разделами
   useEffect(() => {
-    const sync = () => setSectionState(sectionFromHash());
+    const sync = () => {
+      const next = sectionFromHash();
+      if (next === current.current) return;
+      if (!mayLeave()) {
+        // Отказались — адрес возвращается к открытому разделу
+        window.history.pushState(null, '', sectionHref(current.current));
+        return;
+      }
+      setSectionState(next);
+    };
     window.addEventListener('popstate', sync);
     return () => window.removeEventListener('popstate', sync);
   }, []);
 
   const setSection = (next: AdminSection) => {
-    if (next === section) return;
+    if (next === section || !mayLeave()) return;
     window.history.pushState(null, '', sectionHref(next));
     setSectionState(next);
   };
@@ -365,7 +398,7 @@ export const Admin: React.FC = () => {
       ) : section === 'crashes' ? (
         <Crashes {...props} />
       ) : (
-        <Editor {...props} />
+        <Editor {...props} onDirty={onDirty} />
       )}
       <Toaster />
     </>
