@@ -339,6 +339,16 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.2.12.tgz#afefe785949f16ac4cdd1e695935a321572dd56a"
   integrity sha512-HpCo8tmWzLVad5s2d19EhAz5zqrrQ6s69qd6moPMQvkOuSwDT1YgRfWSVuc4ennqrgv3OHppiOGMQ7oC13yIww==
 
+"@fontsource-variable/ubuntu-sans@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource-variable/ubuntu-sans/-/ubuntu-sans-5.3.0.tgz#d4f53448c8c8f08b953afed53bc312c218b06b46"
+  integrity sha512-SsQHgZOfw7O6S3c8XtObfXIG034nUpPXWdPhjeFRwtfESjALC9wUYeMTXXalutKpk+mFs3V4vRQVJpeJvmZ9iA==
+
+"@fontsource/ubuntu-mono@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@fontsource/ubuntu-mono/-/ubuntu-mono-5.3.0.tgz#f124f11860eaa2529a346d5a84447f92f08680bb"
+  integrity sha512-hLwLkeAV9YvLSOWExn0heOXy+EB4wKnt648qS5FaqsiCZDS8X9kR/ueIBzzX/vNSXjFkhLRSTKqlOfFvHdD4Bw==
+
 "@gravity-ui/icons@^2.22.0":
   version "2.22.0"
   resolved "https://registry.yarnpkg.com/@gravity-ui/icons/-/icons-2.22.0.tgz#f766baf65dcf8b5c4a0e31bef1448a6b48edcce1"
