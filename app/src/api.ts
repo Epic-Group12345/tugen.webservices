@@ -18,10 +18,7 @@ export const COLUMNS: { id: ColumnId; title: string }[] = [
 
 /** Ответ сервера с кодом, по которому админка понимает, что токен больше не годится */
 export class ApiError extends Error {
-  constructor(
-    message: string,
-    readonly status: number,
-  ) {
+  constructor(message: string, readonly status: number) {
     super(message);
   }
 }
