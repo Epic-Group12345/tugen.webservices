@@ -27,8 +27,12 @@ services:
     environment:
       # Домен — Caddy сам получит сертификат и включит HTTPS; без домена сайт работает по http на IP
       SITE_ADDRESS: ${SITE_ADDRESS:-:80}
+      SITE_TLS: ${SITE_TLS:-}
+      TRUSTED_PROXIES: ${TRUSTED_PROXIES:-private_ranges}
     volumes:
       - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      # Сертификаты certbot для SITE_TLS; live/ — ссылки в archive/, поэтому монтируется весь каталог
+      - ${LETSENCRYPT_DIR:-./letsencrypt}:/etc/letsencrypt:ro
       - caddy-data:/data
       - caddy-config:/config
 

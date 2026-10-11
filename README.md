@@ -67,6 +67,12 @@ ADMIN_TOKEN=… ./tugen_web     # http://localhost:8080: сайт из app/dist 
 `127.0.0.1:8080` (порт меняет `WEB_PORT` в `/opt/tugen/.env`), а снаружи его отдаёт ваш nginx по примеру
 `deploy/nginx-tugen.conf`. Caddy включается строкой `COMPOSE_PROFILES=caddy` в `.env`.
 
+Если домен смотрит на защиту (RT Solar и т. п.), в `/opt/tugen/.env` задаются `TRUSTED_PROXIES` — сети защиты
+(у Солара `93.185.164.0/25`), чтобы в журнале Caddy и в бэкенде был адрес посетителя, а не защиты, и
+`SITE_TLS="tls /etc/letsencrypt/live/<домен>/fullchain.pem /etc/letsencrypt/live/<домен>/privkey.pem"`, если
+Let's Encrypt не достучится до сервера и сертификат выпущен certbot. После продления сертификата —
+`docker compose restart caddy`.
+
 На сервере: `journalctl -u tugen-update -f` — журнал обновлений, `cd /opt/tugen && docker compose logs -f` — логи
 сайта, `/opt/tugen/update.sh` — обновить сейчас.
 
