@@ -1,6 +1,13 @@
 import React from 'react';
 import {
   ArrowDownToLine,
+  ArrowRight,
+  Bars,
+  BookOpen,
+  Briefcase,
+  CodeTrunk,
+  LayoutCells,
+  Megaphone,
   ChevronDown,
   ChevronLeft,
   ChevronRight,
@@ -22,6 +29,13 @@ const gravity =
     <Icon width={size} height={size} className={className} aria-hidden />;
 
 export const DownloadIcon = gravity(ArrowDownToLine);
+export const MenuIcon = gravity(Bars);
+export const GoIcon = gravity(ArrowRight);
+export const BusinessIcon = gravity(Briefcase);
+export const DeveloperIcon = gravity(CodeTrunk);
+export const PublisherIcon = gravity(Megaphone);
+export const KitIcon = gravity(LayoutCells);
+export const DocsIcon = gravity(BookOpen);
 export const PlusIcon = gravity(Plus);
 export const TrashIcon = gravity(TrashBin);
 export const ArrowLeftIcon = gravity(ChevronLeft);

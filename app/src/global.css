@@ -1,7 +1,52 @@
 @import 'tailwindcss';
 /* Веб-слой kit: классы его компонентов, тёмная тема как в системе, анимации появления */
 @import '@tugen/uikit/web.css';
+/* Витрина и документация kit (страницы /uikit и /docs) — их классы Tailwind ищет в пакете */
+@source "../node_modules/@tugen/uikit/example/src";
+@source "../node_modules/@tugen/uikit/docs/src";
 
 body {
   @apply bg-mist-50 font-sans text-mist-950 antialiased dark:bg-mist-950 dark:text-mist-50;
+}
+
+/* Якорь заголовка в документации не прячется под её шапкой */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Подсветка кода в документации (docs/src/ui/code.tsx пакета kit) — как в docs/src/global.css kit */
+:root {
+  --code-plain: var(--color-mist-900);
+  --code-comment: var(--color-mist-500);
+  --code-keyword: var(--color-violet-700);
+  --code-string: var(--color-green-700);
+  --code-tag: var(--color-blue-700);
+  --code-attr: var(--color-amber-700);
+  --code-number: var(--color-red-600);
+  --code-punctuation: var(--color-mist-500);
+}
+
+/* Тёмная — как вариант dark в tugen.css: класс .dark или система без .light */
+:root.dark {
+  --code-plain: var(--color-mist-100);
+  --code-comment: var(--color-mist-500);
+  --code-keyword: var(--color-violet-400);
+  --code-string: var(--color-green-400);
+  --code-tag: var(--color-blue-400);
+  --code-attr: var(--color-amber-400);
+  --code-number: var(--color-red-400);
+  --code-punctuation: var(--color-mist-400);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --code-plain: var(--color-mist-100);
+    --code-comment: var(--color-mist-500);
+    --code-keyword: var(--color-violet-400);
+    --code-string: var(--color-green-400);
+    --code-tag: var(--color-blue-400);
+    --code-attr: var(--color-amber-400);
+    --code-number: var(--color-red-400);
+    --code-punctuation: var(--color-mist-400);
+  }
 }

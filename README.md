@@ -10,6 +10,11 @@ src/tugen_web/roadmap.nim роадмап: проверка доски, чтен�
 src/tugen_web/auth.nim  токен админки
 tests/                  тесты бэкенда
 app/                    фронтенд: Vite + React на UI-kit TUGEN
+  src/main.tsx          страницы по адресу: /, /business, /developers, /publishers, /uikit, /docs, /admin
+  src/site.tsx          шапка с разделами «Для бизнеса», «Для разработчиков», «Для издателей» и подвал
+  src/audiences.tsx     страницы разделов: «Для разработчиков» ведёт на UI-kit и документацию, остальные — заглушки
+  src/uikit.tsx         /uikit: витрина kit (разделы example/src из пакета @tugen/uikit)
+  src/docs.tsx          /docs: сайт документации kit (docs/src из пакета) под шапкой сайта
   src/landing.tsx       лендинг: слева заголовок «А что если лаунчер — …» со сменяющимся окончанием, «Скачать», Discord, роадмап
   src/roadmap.tsx       роадмап-канбан для чтения
   src/admin.tsx         скрытая админка /admin: правка канбана
@@ -113,3 +118,10 @@ Let's Encrypt не достучится до сервера и сертифик�
 `tugen-setup-win-x64.exe` и портативный `tugen-portable-win-x64.zip`.
 
 Коммит kit закреплён в `app/package.json`; чтобы взять новый, поменяйте хеш и выполните `yarn install`.
+Если после смены хеша в `node_modules/@tugen/uikit` осталась старая версия, yarn взял её из кеша:
+`yarn cache clean @tugen/uikit && rm -rf node_modules/@tugen && yarn install`.
+
+Страницы `/uikit` и `/docs` — витрина (`example/`) и документация (`docs/`) из того же пакета kit: пишутся они
+в tugen.uikit, а сайт подключает их псевдонимами `@uikit-gallery` и `@uikit-docs` (`vite.config.ts`). Таблицы
+свойств документации собирает при сборке плагин kit `docs/props-plugin.ts` из типов компонентов. Новый компонент
+или пример в kit появится на сайте после смены коммита kit.
