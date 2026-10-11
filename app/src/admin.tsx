@@ -27,11 +27,18 @@ import {
   PlusIcon,
   TrashIcon,
 } from './icons';
+import {
+  AdminShell,
+  sectionFromHash,
+  sectionHref,
+  type AdminSection,
+} from './admin-shell';
 import { Crashes } from './crashes';
-import { KANBAN_LAYOUT, KanbanColumn } from './roadmap';
+import { KanbanColumn } from './roadmap';
 
-// Скрытая админка: роадмап и отчёты о сбоях лаунчера. Страница /admin, ссылок на неё нет. Вход — токен ADMIN_TOKEN бэкенда;
-// он хранится только до закрытия вкладки (sessionStorage), а проверяет его сервер
+// Скрытая админка: роадмап и отчёты о сбоях лаунчера в каркасе окна лаунчера (admin-shell). Страница /admin,
+// ссылок на неё нет. Вход — токен ADMIN_TOKEN бэкенда; он хранится только до закрытия вкладки (sessionStorage),
+// а проверяет его сервер
 
 const TOKEN_KEY = 'tugen.admin.token';
 
@@ -58,6 +65,10 @@ const newId = () =>
     : `${Date.now().toString(36)}-${Math.random().toString(36).slice(2)}`;
 
 const ORDER = COLUMNS.map(c => c.id);
+
+// Колонки рядом — только когда им хватает места рядом с боковой панелью; уже — друг под другом
+const EDITOR_LAYOUT =
+  'flex flex-col gap-6 lg:flex-row lg:items-stretch lg:gap-4';
 
 const Login: React.FC<{ onLogin: (token: string) => void }> = ({ onLogin }) => {
   const [token, setToken] = useState('');
@@ -89,7 +100,7 @@ const Login: React.FC<{ onLogin: (token: string) => void }> = ({ onLogin }) => {
       >
         <div className="flex flex-col gap-1">
           <Text as="h1" size="xl" weight="bold">
-            Админка роадмапа
+            Админка TUGEN
           </Text>
           <Text tone="secondary">Введите токен администратора.</Text>
         </div>
@@ -178,11 +189,13 @@ const EditableCard: React.FC<{
   );
 };
 
-const Editor: React.FC<{
+export interface SectionProps {
   token: string;
   onLogout: () => void;
-  onCrashes: () => void;
-}> = ({ token, onLogout, onCrashes }) => {
+  onSection: (section: AdminSection) => void;
+}
+
+const Editor: React.FC<SectionProps> = ({ token, onLogout, onSection }) => {
   const [board, setBoard] = useState<Roadmap | null>(null);
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -266,88 +279,72 @@ const Editor: React.FC<{
   };
 
   return (
-    <main className="flex flex-col items-center p-5">
-      <div className="flex w-full max-w-6xl flex-col gap-6">
-        <div className="flex flex-row flex-wrap items-center justify-between gap-3">
-          <div className="flex flex-col gap-0.5">
-            <Text as="h1" size="2xl" weight="bold">
-              Роадмап
-            </Text>
-            <Text tone="muted">
-              {dirty ? 'Есть несохранённые изменения' : 'Всё сохранено'}
-            </Text>
-          </div>
-          <div className="flex flex-row items-center gap-2">
-            <Button variant="ghost" onClick={onLogout}>
-              Выйти
-            </Button>
-            <Button variant="secondary" onClick={onCrashes}>
-              Сбои
-            </Button>
-            <Button
-              variant="secondary"
-              onClick={() => {
-                window.location.href = '/';
-              }}
-            >
-              На сайт
-            </Button>
-            <Button onClick={save} disabled={!dirty || saving || empty}>
-              Сохранить
-            </Button>
-          </div>
-        </div>
-        {empty && (
-          <Text tone="warning">
-            У каждой карточки должно быть название — иначе сохранить нельзя.
-          </Text>
-        )}
-        {board && (
-          <div className={KANBAN_LAYOUT}>
-            {COLUMNS.map(({ id: col }) => (
-              <KanbanColumn key={col} id={col} count={board[col].length}>
-                {board[col].map((item, index) => (
-                  <EditableCard
-                    key={item.id}
-                    item={item}
-                    column={col}
-                    first={index === 0}
-                    last={index === board[col].length - 1}
-                    onChange={next => update(col, next)}
-                    onMove={dx => move(col, item.id, dx)}
-                    onShift={dy => shift(col, index, dy)}
-                    onDelete={() => remove(col, item.id)}
-                  />
-                ))}
-                <Button
-                  variant="ghost"
-                  icon={PlusIcon}
-                  onClick={() => add(col)}
-                >
-                  Добавить карточку
-                </Button>
-              </KanbanColumn>
-            ))}
-          </div>
-        )}
+    <AdminShell
+      section="roadmap"
+      onSection={onSection}
+      onLogout={onLogout}
+      actions={
+        <Button onClick={save} disabled={!dirty || saving || empty}>
+          Сохранить
+        </Button>
+      }
+    >
+      <div className="flex flex-col gap-0.5">
+        <Text as="h1" size="2xl" weight="bold">
+          Роадмап
+        </Text>
+        <Text tone="muted">
+          {dirty ? 'Есть несохранённые изменения' : 'Всё сохранено'}
+        </Text>
       </div>
-    </main>
+      {empty && (
+        <Text tone="warning">
+          У каждой карточки должно быть название — иначе сохранить нельзя.
+        </Text>
+      )}
+      {board && (
+        <div className={EDITOR_LAYOUT}>
+          {COLUMNS.map(({ id: col }) => (
+            <KanbanColumn key={col} id={col} count={board[col].length}>
+              {board[col].map((item, index) => (
+                <EditableCard
+                  key={item.id}
+                  item={item}
+                  column={col}
+                  first={index === 0}
+                  last={index === board[col].length - 1}
+                  onChange={next => update(col, next)}
+                  onMove={dx => move(col, item.id, dx)}
+                  onShift={dy => shift(col, index, dy)}
+                  onDelete={() => remove(col, item.id)}
+                />
+              ))}
+              <Button variant="ghost" icon={PlusIcon} onClick={() => add(col)}>
+                Добавить карточку
+              </Button>
+            </KanbanColumn>
+          ))}
+        </div>
+      )}
+    </AdminShell>
   );
 };
 
 export const Admin: React.FC = () => {
   const [token, setToken] = useState(readToken);
-  // /admin#crashes открывает сразу сбои: ссылку можно сохранить в закладки
-  const [view, setViewState] = useState<'roadmap' | 'crashes'>(() =>
-    window.location.hash === '#crashes' ? 'crashes' : 'roadmap',
-  );
-  const setView = (next: 'roadmap' | 'crashes') => {
-    setViewState(next);
-    window.history.replaceState(
-      null,
-      '',
-      next === 'crashes' ? '#crashes' : window.location.pathname,
-    );
+  const [section, setSectionState] = useState<AdminSection>(sectionFromHash);
+
+  // Раздел — в истории браузера: «назад» и «вперёд» в панели над страницей ходят между разделами
+  useEffect(() => {
+    const sync = () => setSectionState(sectionFromHash());
+    window.addEventListener('popstate', sync);
+    return () => window.removeEventListener('popstate', sync);
+  }, []);
+
+  const setSection = (next: AdminSection) => {
+    if (next === section) return;
+    window.history.pushState(null, '', sectionHref(next));
+    setSectionState(next);
   };
 
   const login = (next: string) => {
@@ -355,22 +352,20 @@ export const Admin: React.FC = () => {
     setToken(next);
   };
 
+  const props: SectionProps = {
+    token,
+    onLogout: () => login(''),
+    onSection: setSection,
+  };
+
   return (
     <>
-      {token && view === 'crashes' ? (
-        <Crashes
-          token={token}
-          onLogout={() => login('')}
-          onRoadmap={() => setView('roadmap')}
-        />
-      ) : token ? (
-        <Editor
-          token={token}
-          onLogout={() => login('')}
-          onCrashes={() => setView('crashes')}
-        />
-      ) : (
+      {!token ? (
         <Login onLogin={login} />
+      ) : section === 'crashes' ? (
+        <Crashes {...props} />
+      ) : (
+        <Editor {...props} />
       )}
       <Toaster />
     </>
