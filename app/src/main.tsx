@@ -1,12 +1,30 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import { createRoot } from 'react-dom/client';
 import './global.css';
 import { Admin } from './admin';
+import { Business, Developers, Publishers } from './audiences';
 import { Landing } from './landing';
+import { currentPath } from './site';
 
-// Скрытая админка роадмапа — по адресу /admin; бэкенд отдаёт на него тот же index.html
-const isAdmin = window.location.pathname.replace(/\/+$/, '') === '/admin';
+// Страницы — по адресу; бэкенд отдаёт на любой из них тот же index.html. Скрытая админка роадмапа — /admin.
+// UI-kit и документация тянут все примеры kit, поэтому грузятся отдельными кусками, только когда нужны
+
+const UiKit = lazy(() => import('./uikit').then(m => ({ default: m.UiKit })));
+const Docs = lazy(() => import('./docs').then(m => ({ default: m.Docs })));
+
+const PAGES: Record<string, React.ComponentType> = {
+  '/admin': Admin,
+  '/business': Business,
+  '/developers': Developers,
+  '/publishers': Publishers,
+  '/uikit': UiKit,
+  '/docs': Docs,
+};
+
+const Page = PAGES[currentPath()] ?? Landing;
 
 createRoot(document.getElementById('root')!).render(
-  isAdmin ? <Admin /> : <Landing />,
+  <Suspense fallback={null}>
+    <Page />
+  </Suspense>,
 );

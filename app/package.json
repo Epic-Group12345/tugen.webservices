@@ -11,7 +11,9 @@
   },
   "dependencies": {
     "@gravity-ui/icons": "^2.22.0",
-    "@tugen/uikit": "github:Epic-Group12345/tugen.uikit#e09908ee5d76e7e371fa11a7a57d6de869110241",
+    "@tugen/uikit": "github:Epic-Group12345/tugen.uikit#ef72701e01569c5df45ccfe7b7ca726af7adf8a5",
+    "lucide-react": "^1.54.0",
+    "prism-react-renderer": "^2.4.1",
     "react": "19.1.4",
     "react-dom": "19.1.4",
     "tailwindcss": "^4.3.3"
@@ -23,6 +25,7 @@
     "@types/react-dom": "^19.1.0",
     "@vitejs/plugin-react": "^5.2.0",
     "prettier": "^2",
+    "react-docgen-typescript": "^2.4.0",
     "typescript": "^5.8.3",
     "vite": "^7.3.7"
   }

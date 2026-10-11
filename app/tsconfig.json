@@ -9,7 +9,21 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "types": ["node", "vite/client"]
+    "types": [
+      "node",
+      "vite/client"
+    ],
+    "paths": {
+      "@uikit-docs/*": [
+        "./node_modules/@tugen/uikit/docs/src/*"
+      ],
+      "@uikit-gallery/*": [
+        "./node_modules/@tugen/uikit/example/src/*"
+      ]
+    }
   },
-  "include": ["src", "vite.config.ts"]
+  "include": [
+    "src",
+    "vite.config.ts"
+  ]
 }
