@@ -1,0 +1,8 @@
+[Unit]
+Description=Обновление веба TUGEN из GitHub
+After=docker.service
+Requires=docker.service
+
+[Service]
+Type=oneshot
+ExecStart=/opt/tugen/update.sh
