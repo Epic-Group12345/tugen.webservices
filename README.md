@@ -59,6 +59,10 @@ ADMIN_TOKEN=… ./tugen_web     # http://localhost:8080: сайт из app/dist 
 (A-запись домена должна указывать на сервер): Caddy сам получит сертификат и включит HTTPS. Без домена сайт
 открывается по `http://IP`.
 
+Если порт 80 на сервере уже занят (например, nginx с другими сайтами), Caddy не запускается: сайт слушает только
+`127.0.0.1:8080` (порт меняет `WEB_PORT` в `/opt/tugen/.env`), а снаружи его отдаёт ваш nginx по примеру
+`deploy/nginx-tugen.conf`. Caddy включается строкой `COMPOSE_PROFILES=caddy` в `.env`.
+
 На сервере: `journalctl -u tugen-update -f` — журнал обновлений, `cd /opt/tugen && docker compose logs -f` — логи
 сайта, `/opt/tugen/update.sh` — обновить сейчас.
 

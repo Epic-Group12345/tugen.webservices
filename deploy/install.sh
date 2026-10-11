@@ -21,6 +21,12 @@ install -m 644 tugen-update.service tugen-update.timer /etc/systemd/system/
 if [ ! -f /opt/tugen/.env ]; then
   umask 077
   printf 'ADMIN_TOKEN=%s\nSITE_ADDRESS=%s\n' "$(od -An -tx1 -N32 /dev/urandom | tr -d " \n")" "${SITE_ADDRESS:-:80}" > /opt/tugen/.env
+  # Порт 80 занят (например, nginx с другими сайтами) — Caddy не ставим, проксировать будет тот сервер
+  if ss -Hltn 'sport = :80' | grep -q .; then
+    echo '> Порт 80 занят: Caddy не запускаю, подключите сайт к своему nginx (deploy/nginx-tugen.conf)'
+  else
+    echo 'COMPOSE_PROFILES=caddy' >> /opt/tugen/.env
+  fi
   echo '> Создан /opt/tugen/.env с новым ADMIN_TOKEN'
 elif [ -n "${SITE_ADDRESS:-}" ]; then
   sed -i "s|^SITE_ADDRESS=.*|SITE_ADDRESS=$SITE_ADDRESS|" /opt/tugen/.env
