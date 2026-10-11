@@ -27,9 +27,10 @@ import {
   PlusIcon,
   TrashIcon,
 } from './icons';
+import { Crashes } from './crashes';
 import { KANBAN_LAYOUT, KanbanColumn } from './roadmap';
 
-// Скрытая админка роадмапа: страница /admin, ссылок на неё нет. Вход — токен ADMIN_TOKEN бэкенда;
+// Скрытая админка: роадмап и отчёты о сбоях лаунчера. Страница /admin, ссылок на неё нет. Вход — токен ADMIN_TOKEN бэкенда;
 // он хранится только до закрытия вкладки (sessionStorage), а проверяет его сервер
 
 const TOKEN_KEY = 'tugen.admin.token';
@@ -177,10 +178,11 @@ const EditableCard: React.FC<{
   );
 };
 
-const Editor: React.FC<{ token: string; onLogout: () => void }> = ({
-  token,
-  onLogout,
-}) => {
+const Editor: React.FC<{
+  token: string;
+  onLogout: () => void;
+  onCrashes: () => void;
+}> = ({ token, onLogout, onCrashes }) => {
   const [board, setBoard] = useState<Roadmap | null>(null);
   const [dirty, setDirty] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -279,6 +281,9 @@ const Editor: React.FC<{ token: string; onLogout: () => void }> = ({
             <Button variant="ghost" onClick={onLogout}>
               Выйти
             </Button>
+            <Button variant="secondary" onClick={onCrashes}>
+              Сбои
+            </Button>
             <Button
               variant="secondary"
               onClick={() => {
@@ -332,6 +337,18 @@ const Editor: React.FC<{ token: string; onLogout: () => void }> = ({
 
 export const Admin: React.FC = () => {
   const [token, setToken] = useState(readToken);
+  // /admin#crashes открывает сразу сбои: ссылку можно сохранить в закладки
+  const [view, setViewState] = useState<'roadmap' | 'crashes'>(() =>
+    window.location.hash === '#crashes' ? 'crashes' : 'roadmap',
+  );
+  const setView = (next: 'roadmap' | 'crashes') => {
+    setViewState(next);
+    window.history.replaceState(
+      null,
+      '',
+      next === 'crashes' ? '#crashes' : window.location.pathname,
+    );
+  };
 
   const login = (next: string) => {
     writeToken(next);
@@ -340,8 +357,18 @@ export const Admin: React.FC = () => {
 
   return (
     <>
-      {token ? (
-        <Editor token={token} onLogout={() => login('')} />
+      {token && view === 'crashes' ? (
+        <Crashes
+          token={token}
+          onLogout={() => login('')}
+          onRoadmap={() => setView('roadmap')}
+        />
+      ) : token ? (
+        <Editor
+          token={token}
+          onLogout={() => login('')}
+          onCrashes={() => setView('crashes')}
+        />
       ) : (
         <Login onLogin={login} />
       )}

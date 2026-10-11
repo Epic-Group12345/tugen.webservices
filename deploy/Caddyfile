@@ -14,5 +14,8 @@
 	# Журнал запросов в docker compose logs; client_ip в нём — адрес посетителя, а не защиты
 	log
 	encode zstd gzip
-	reverse_proxy web:8080
+	# Адрес посетителя для бэкенда (ограничение частоты отчётов о сбоях): client_ip уже с учётом trusted_proxies
+	reverse_proxy web:8080 {
+		header_up X-Real-IP {client_ip}
+	}
 }

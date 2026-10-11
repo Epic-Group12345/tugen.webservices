@@ -22,6 +22,7 @@ jobs:
 
       - run: nim c -r --hints:off tests/test_static.nim
       - run: nim c -r --hints:off tests/test_roadmap.nim
+      - run: nim c -r --hints:off tests/test_crashes.nim
       - run: nim c --hints:off -d:release -o:tugen_web src/tugen_web.nim
 
   app:
