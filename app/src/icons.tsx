@@ -1,59 +1,31 @@
 import React from 'react';
-import {
-  ArrowDownToLine,
-  ArrowRight,
-  ArrowRightFromSquare,
-  Bars,
-  BookOpen,
-  Briefcase,
-  CodeTrunk,
-  Ellipsis,
-  Globe,
-  LayoutCells,
-  LayoutColumns3,
-  LayoutSideContentLeft,
-  Megaphone,
-  ChevronDown,
-  ChevronLeft,
-  ChevronRight,
-  ChevronUp,
-  Plus,
-  TrashBin,
-  TriangleExclamation,
-} from '@gravity-ui/icons';
+import { Icons, type IconComponent } from '@tugen/uikit/web';
 
-// Значки — набор Gravity UI, как в лаунчере (components/icons). Компоненты Gravity рисуют
-// currentColor, поэтому цвет задаёт класс text-*, который передаёт элемент kit (IconComponent)
+// Значки сайта — набор kit (Gravity UI, Icons.<Имя> из @tugen/uikit/web), как в лаунчере. Здесь —
+// имена по смыслу для страниц сайта; Discord — свой знак: в Gravity UI его нет
 
-export type Glyph = React.FC<{ size?: number; className?: string }>;
+export type Glyph = IconComponent;
 
-type GravityIcon = React.FC<React.SVGProps<SVGSVGElement>>;
-
-const gravity =
-  (Icon: GravityIcon): Glyph =>
-  ({ size = 16, className }) =>
-    <Icon width={size} height={size} className={className} aria-hidden />;
-
-export const DownloadIcon = gravity(ArrowDownToLine);
-export const MenuIcon = gravity(Bars);
-export const GoIcon = gravity(ArrowRight);
-export const BusinessIcon = gravity(Briefcase);
-export const DeveloperIcon = gravity(CodeTrunk);
-export const PublisherIcon = gravity(Megaphone);
-export const KitIcon = gravity(LayoutCells);
-export const DocsIcon = gravity(BookOpen);
-export const PlusIcon = gravity(Plus);
-export const TrashIcon = gravity(TrashBin);
-export const ArrowLeftIcon = gravity(ChevronLeft);
-export const ArrowRightIcon = gravity(ChevronRight);
-export const ArrowUpIcon = gravity(ChevronUp);
-export const ArrowDownIcon = gravity(ChevronDown);
-export const MoreIcon = gravity(Ellipsis);
-export const SidebarIcon = gravity(LayoutSideContentLeft);
-export const RoadmapIcon = gravity(LayoutColumns3);
-export const CrashIcon = gravity(TriangleExclamation);
-export const SiteIcon = gravity(Globe);
-export const LogoutIcon = gravity(ArrowRightFromSquare);
+export const DownloadIcon = Icons.ArrowDownToLine;
+export const MenuIcon = Icons.Bars;
+export const GoIcon = Icons.ArrowRight;
+export const BusinessIcon = Icons.Briefcase;
+export const DeveloperIcon = Icons.CodeTrunk;
+export const PublisherIcon = Icons.Megaphone;
+export const KitIcon = Icons.LayoutCells;
+export const DocsIcon = Icons.BookOpen;
+export const PlusIcon = Icons.Plus;
+export const TrashIcon = Icons.TrashBin;
+export const ArrowLeftIcon = Icons.ChevronLeft;
+export const ArrowRightIcon = Icons.ChevronRight;
+export const ArrowUpIcon = Icons.ChevronUp;
+export const ArrowDownIcon = Icons.ChevronDown;
+export const MoreIcon = Icons.Ellipsis;
+export const SidebarIcon = Icons.LayoutSideContentLeft;
+export const RoadmapIcon = Icons.LayoutColumns3;
+export const CrashIcon = Icons.TriangleExclamation;
+export const SiteIcon = Icons.Globe;
+export const LogoutIcon = Icons.ArrowRightFromSquare;
 
 /**
  * Discord — в Gravity UI его нет: знак Clyde, как DISCORD_LOGO лаунчера

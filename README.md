@@ -21,7 +21,7 @@ app/                    фронтенд: Vite + React на UI-kit TUGEN
   src/admin-shell.tsx   каркас админки как окно лаунчера: боковая панель с разделами, шапка «назад / вперёд»
   src/crashes.tsx       раздел админки «Сбои»: отчёты о сбоях лаунчера
   src/api.ts            запросы к API бэкенда
-  src/icons.tsx         значки: Gravity UI (@gravity-ui/icons), как в лаунчере; Discord — свой знак
+  src/icons.tsx         значки: набор kit (Gravity UI, Icons из @tugen/uikit/web); Discord — свой знак
   src/global.css        Tailwind и стили веб-слоя kit (@tugen/uikit/web.css)
   vite.config.ts        Vite + React + Tailwind, прокси /api на бэкенд
 ```
