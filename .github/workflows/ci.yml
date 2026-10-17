@@ -7,7 +7,7 @@ on:
 
 jobs:
   backend:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     # Сторонний setup-nim-action получает GITHUB_TOKEN: только на чтение
     permissions:
       contents: read
@@ -26,7 +26,7 @@ jobs:
       - run: nim c --hints:off -d:release -o:tugen_web src/tugen_web.nim
 
   app:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     permissions:
       contents: read
     timeout-minutes: 15
@@ -49,7 +49,7 @@ jobs:
 
   # Образ, который собирает сервер (deploy/update.sh): проверяем, что Dockerfile собирается
   docker:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-4vcpu-ubuntu-2404
     permissions:
       contents: read
     timeout-minutes: 20
