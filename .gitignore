@@ -10,3 +10,6 @@ app/uniwind-types.d.ts
 
 # Данные бэкенда (роадмап)
 data/
+
+# Бинарные сборки тестов (Nim)
+tests/*.exe
