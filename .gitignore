@@ -1,7 +1,6 @@
 # Nim
 /tugen_web
 nimcache/
-tests/test_static
 
 # app (Vite)
 node_modules/
@@ -11,5 +10,8 @@ app/uniwind-types.d.ts
 # Данные бэкенда (роадмап)
 data/
 
-# Бинарные сборки тестов (Nim)
+# Бинарные сборки тестов (Nim): .exe на Windows, без расширения на Linux и macOS
 tests/*.exe
+tests/test_*
+!tests/test_*.nim
+/tugen_web.exe
